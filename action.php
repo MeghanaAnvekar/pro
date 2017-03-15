@@ -1,57 +1,64 @@
 <?php
-$a = "~(htt(?:p|ps):\/\/.*)~" ;
-
-$timeout = 10;
-$ch = curl_init($_GET["url"]);
-       curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER["HTTP_USER_AGENT"]); 
-       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
-       curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); 
-       curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout); 
-       curl_setopt($ch, CURLOPT_FAILONERROR, 1);
-       
-       
-$data = curl_exec($ch);
-
+require("functions.php");
+$data = fetch_data($_GET["url"]);
 //echo $data;
+$next_page="@<li class=\" linkpagination\"><a data-page=\"\d\" href =(.*)<\/a><\/li>@";
 
-curl_close($ch);
+preg_match_all($next_page,$data,$next,PREG_PATTERN_ORDER);
 
-$regex = "@(?s)<h2.*?Add to Compare@";
+ $regex = "@(?s)<h2.*?Add to Compare@";
+    preg_match_all($regex,$data,$matches,PREG_PATTERN_ORDER);
 
-//$data = "hello people iam happy . you are amazing. great work";
-
-preg_match_all($regex,$data,$matches,PREG_PATTERN_ORDER);
-
-//print_r($matches[0]);
-
-$college_name= "@<h2.*\">(.*)<\/a>@";
-$place = "@<p>\|(.*)<\/p>@";
-$facilities = "@<h3>(.*)<\/h3>@";
-
-$college=[];
-
-$crude_data = $matches[0];
-$i=0;
-
-foreach ( $crude_data as $var)
+    
+    $college_name= "@<h2.*\">(.*)<\/a>@";
+    $place = "@<p>\|(.*)<\/p>@";
+    $facilities = "@<h3>(.*)<\/h3>@";
+    $reviews = "@<span><b>(\d+)<\/b><a target=\"_blank\"@";
+    
+    $college=[];
+    
+    $crude_data = $matches[0];
+    $i=0;
+    
+    foreach ( $crude_data as $var)
+    {
+        preg_match($college_name,$var,$r_name);
+        preg_match($place,$var,$r_place);
+        preg_match_all($facilities,$var,$r_fac);
+        preg_match($reviews,$var,$r_rev);
+        
+        
+       $college[$i] = array($r_name[0],$r_place[1],$r_fac[0],$r_rev[1]);
+        
+        $i = $i+1;
+    }
+//print_r($next[1]);
+/*
+foreach ($next[1] as $var)
 {
-    preg_match($college_name,$var,$r);
-    $college[i]["name"] = $r[0];
-    
-    preg_match($place,$var,$r);
-    $college[i]['place'] =$r[1];
-    
-    preg_match_all($facilities,$var,$r);
-    
-    $college[i]['facilities']=$r[0];
-    $i  = $i+1;
-    
-}
+    $data = fetch_data($var);
+    //echo $data;
    
-
+    $regex = "@(?s)<h2.*?Add to Compare@";
+    preg_match_all($regex,$data,$matches,PREG_PATTERN_ORDER);
+    
+    //echo $matches[0];
+    
+    $crude_data = $matches[0];
+    
+    foreach ( $crude_data as $var)
+    {
+        preg_match($college_name,$var,$r_name);
+        preg_match($place,$var,$r_place);
+        preg_match_all($facilities,$var,$r_fac);
+        
+       $college[$i] = array($r_name[0],$r_place[1],$r_fac[0]);
+        
+        $i = $i+1;
+    }
+   
+}*/
+// print_r($next[1]);
 print_r($college);
 
-
-
-         
 ?>
