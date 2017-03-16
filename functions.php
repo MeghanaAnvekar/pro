@@ -17,7 +17,7 @@ function fetch_data($url)
     return $data;
 }
 
-function scrape($data)
+function scrape($data,$i)
 {
     $regex = "@(?s)<h2.*?Add to Compare@";
     preg_match_all($regex,$data,$matches,PREG_PATTERN_ORDER);
@@ -30,7 +30,6 @@ function scrape($data)
     $college=[];
     
     $crude_data = $matches[0];
-    $i=0;
     
     foreach ( $crude_data as $var)
     {
@@ -48,9 +47,9 @@ function scrape($data)
 
 function db_connect()
 {
-$servername = "localhost";
-$username = "username";
-$password = "password";
+$servername = "https://ide.c9.io/m_anvekar/ide50";
+$username = "m_anvekar";
+$password = "v1kCjsvLYytrBTGV";
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password);
