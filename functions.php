@@ -45,27 +45,97 @@ function scrape($data,$i)
     return $college;
 }
 
-function db_connect()
+function update_db($college)
 {
-$servername = "https://ide.c9.io/m_anvekar/ide50";
+$servername = "localhost";
 $username = "m_anvekar";
 $password = "v1kCjsvLYytrBTGV";
+$database = "colleges";
 
-// Create connection
-$conn = mysqli_connect($servername, $username, $password);
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+$conn = connect_db($servername,$username,$password ,$database);
+
+table_setup();
+
+foreach ($college as $data)
+{
+    $facilities = "";
+    $x = $data["facilities"];
+   // echo gettype($x);
+    foreach($x as $facs)
+    {
+        $facilities  =$facilities. $facs . ",";
+    }
+    $retval = insert($conn,$row,$facilities);
+    
 }
 
-// Create database
-$sql = "CREATE DATABASE myDB";
-if (mysqli_query($conn, $sql)) {
-    echo "Database created successfully";
-} else {
-    echo "Error creating database: " . mysqli_error($conn);
+$data = retrieve($conn);
+
+display($data);
+
+}
+function connect_db($servername,$username,$password ,$database)
+{
+    $conn = mysqli_connect($servername, $username, $password,$database);
+
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    
+    echo "Connected successfully";
+    
+    return $conn;
+
+}
+function table_setup($conn)
+{
+    $sql = "DROP TABLE details";
+    mysql_select_db( 'colleges' );
+    $retval = mysql_query( $sql, $conn );
+    if(! $retval )
+    {
+      die('Could not delete table: ' . mysql_error());
+    }
+    echo "Table deleted successfully\n";
+    
+    $sql = "CREATE TABLE details (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(80),place VARCHAR(80),facilities VARCHAR(200),reviews INT)";
+
+    $retval = mysql_query($sql, $conn);
+    
+    if(! $retval )
+    {
+      die('Could not create table: ' . mysql_error());
+    }
+    echo "Table created successfully\n";
+    
 }
 
-mysqli_close($conn);
+function insert_data($conn,$row,$f)
+{
+    $name = mysql_real_escape_string( $row["name"]);
+    $place = mysql_real_escape_string( $row["place"]);
+    $facs = mysql_real_escape_string( $f);
+    $reviews = $row["reviews"];
+    $sql = "INSERT INTO details (name,place,facilities,reviews) VALUES('$name','$place','$facs','$reviews')";
+    $retval = mysql_query($sql,$conn);
+}
+
+function retrieve($conn)
+{
+    $sql = "SELECT * FROM details where id = $id";
+    $id = 1;
+    $continue = true;
+    $data = [];
+    while($continue === true)
+    {
+        $retval = mysql_query($conn,$sql);
+        if($retval != false)
+        $data[$id] = $retval;
+        else
+        $continue = false;
+    }
+    
+    return $data;
+    
 }
 ?>

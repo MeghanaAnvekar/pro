@@ -42,7 +42,9 @@
         preg_match($reviews,$var,$r_rev);
         
         
-       $college[$i] = array($r_name[0],$r_place[1],$r_fac[0],$r_rev[1]);
+        $r_rev[1]=(int)$r_rev[1];
+        
+       $college[$i] = ["name" => $r_name[1],"place" => $r_place[1],"facilities" => $r_fac[1],"reviews" => $r_rev[1]];
         
         $i = $i+1;
     }
@@ -60,16 +62,30 @@ foreach ($pages as $url)
         preg_match_all($facilities,$var,$r_fac);
         preg_match($reviews,$var,$r_rev);
         
-        
-       $college[$i] = array($r_name[0],$r_place[1],$r_fac[0],$r_rev[1]);
-        
+        $r_rev[1]=(int)$r_rev[1];
+       
+        $college[$i] = ["name" => $r_name[1],"place" => $r_place[1],"facilities" => $r_fac[1],"reviews" => $r_rev[1]];
+       
         $i = $i+1;
     }
    
 }
-// print_r($next[1]);
-print_r($college);
 
-db_connect();
+
+
+//echo gettype($r_rev[1]);
+// print_r($next[1]);
+/*foreach($college as $a)
+{
+    print_r($a);
+    ?>
+    <br>
+    <hr>
+    <br>
+    <?php
+}
+*/
+//db_connect();
+
 
 ?>
