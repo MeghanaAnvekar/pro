@@ -8,7 +8,7 @@
     
     $pages=[];
     $j =0;
-    foreach ($next[1] as $a)
+  /*  foreach ($next[1] as $a)
     {
             $a = strchr($a,"http");
         echo $a;
@@ -18,7 +18,7 @@
         $pages[$j] = $a;
         $j = $j+1;
     }
-
+*/
 
     $regex = "@(?s)<h2.*?Add to Compare@";
     preg_match_all($regex,$data,$matches,PREG_PATTERN_ORDER);
@@ -85,7 +85,7 @@ foreach ($pages as $url)
     <?php
 }
 */
-//db_connect();
+update_db($college);
 
 
 ?>

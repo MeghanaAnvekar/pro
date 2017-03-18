@@ -54,7 +54,7 @@ $database = "colleges";
 
 $conn = connect_db($servername,$username,$password ,$database);
 
-table_setup();
+table_setup($conn);
 
 foreach ($college as $data)
 {
@@ -90,8 +90,9 @@ function connect_db($servername,$username,$password ,$database)
 function table_setup($conn)
 {
     $sql = "DROP TABLE details";
-    mysql_select_db( 'colleges' );
-    $retval = mysql_query( $sql, $conn );
+    echo gettype($sql);
+    
+    $retval = mysqli_query($conn,$sql);
     if(! $retval )
     {
       die('Could not delete table: ' . mysql_error());
@@ -100,7 +101,7 @@ function table_setup($conn)
     
     $sql = "CREATE TABLE details (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(80),place VARCHAR(80),facilities VARCHAR(200),reviews INT)";
 
-    $retval = mysql_query($sql, $conn);
+    $retval = mysqli_query($conn,$sql);
     
     if(! $retval )
     {
@@ -117,7 +118,7 @@ function insert_data($conn,$row,$f)
     $facs = mysql_real_escape_string( $f);
     $reviews = $row["reviews"];
     $sql = "INSERT INTO details (name,place,facilities,reviews) VALUES('$name','$place','$facs','$reviews')";
-    $retval = mysql_query($sql,$conn);
+    $retval = mysqli_query($sql,$conn);
 }
 
 function retrieve($conn)
@@ -128,7 +129,7 @@ function retrieve($conn)
     $data = [];
     while($continue === true)
     {
-        $retval = mysql_query($conn,$sql);
+        $retval = mysqli_query($conn,$sql);
         if($retval != false)
         $data[$id] = $retval;
         else
@@ -137,5 +138,18 @@ function retrieve($conn)
     
     return $data;
     
+}
+
+function display($college)
+{
+    foreach($college as $a)
+{
+    print_r($a);
+    ?>
+    <br>
+    <hr>
+    <br>
+    <?php
+}
 }
 ?>
