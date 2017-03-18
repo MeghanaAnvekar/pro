@@ -1,19 +1,20 @@
+<!DOCTYPE html>
 <html>
-    
-    <body align="center">
+<head>
+ <link rel="stylesheet" type="text/css" href="theme.css">
+ <link rel="stylesheet" type="text/css"href="https://fonts.googleapis.com/css?family=Pangolin">
+
+</head>
+<body>
+
+<p>Find Your College </p>
+<p>Here</p>
+<form action = "action.php">
         
-        <h1>SHIKSHA.COM</h1>
-        
-        <br>
-        
-        url :
-        
-        <form action = "action.php">
-        
-        <input type ="text" name ="url" size ="150"></input> <br/>
+        <input type ="text" name ="url" size ="50"></input> <br/>
             <input type ="submit" value="Submit"> 
         </form>
-        
-        
-    </body>
+
+
+</body>
 </html>

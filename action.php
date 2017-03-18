@@ -67,10 +67,10 @@ foreach ($pages as $url)
    
 }
 
-
+echo $i;
 
 // print_r($next[1]);
-/*foreach($college as $a)
+foreach($college as $a)
 {
     print_r($a);
     ?>
@@ -79,15 +79,20 @@ foreach ($pages as $url)
     <br>
     <?php
 }
-*/
+
 ?>
+
 <html>
     <head>
         <style>
+        
         body{
             background: url("https://media.giphy.com/media/26tPgy93ssTeTTSqA/giphy.gif");
+        
             background-size:100% ;
             background-repeat:no-repeat;
+           
+            
         }
         h1
         {
@@ -104,8 +109,9 @@ foreach ($pages as $url)
        </body>
     
 </html>
-<?php
-update_db($college);
 
 
-?>
+//$retval = update_db($college);
+
+
+

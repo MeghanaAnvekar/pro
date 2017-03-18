@@ -1,0 +1,36 @@
+body
+{
+background: url(univ.jpg) no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+	
+	
+}
+
+p
+{
+text-align:center;
+font-family:Pangolin;
+font-size:60px;
+color:white;
+}
+
+input[type=text] {
+    width: 50%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    
+    display: block;
+    margin : 0 auto;
+}
+
+input[type=submit]
+{
+font-family:Verdana;
+font-size:20px;
+display: block;
+    margin : 0 auto;
+} 

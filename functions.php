@@ -1,5 +1,4 @@
 <?php
-
 function fetch_data($url)
 {
     $timeout = 10;
@@ -66,12 +65,16 @@ foreach ($college as $data)
         $facilities  =$facilities. $facs . ",";
     }
     insert_data($conn,$data,$facilities);
+    display($data);
     
 }
 
-$data = retrieve($conn);
+//$data = retrieve($conn);
 
-display($data);
+//display($data);
+
+$a = 1;
+return $a;
 
 }
 function connect_db($servername,$username,$password ,$database)
@@ -134,8 +137,8 @@ function insert_data($conn,$row,$f)
 
 function retrieve($conn)
 {
-    $sql = "SELECT * FROM details where id = $id";
     $id = 1;
+    $sql = "SELECT * FROM details where id = $id";
     $continue = true;
     $data = [];
     while($continue === true)
@@ -144,7 +147,9 @@ function retrieve($conn)
         if($retval != false)
         $data[$id] = $retval;
         else
-        $continue = false;
+        {$continue = false;
+        echo mysqli_error($conn);
+        }
     }
     
     return $data;
@@ -153,10 +158,12 @@ function retrieve($conn)
 
 function display($college)
 {
+    echo sizeof($college);
     foreach($college as $a)
 {
     print_r($a);
     ?>
+    <br>
     <br>
     <hr>
     <br>
