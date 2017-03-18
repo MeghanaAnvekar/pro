@@ -65,7 +65,7 @@ foreach ($college as $data)
     {
         $facilities  =$facilities. $facs . ",";
     }
-    $retval = insert($conn,$row,$facilities);
+    insert_data($conn,$data,$facilities);
     
 }
 
@@ -82,22 +82,33 @@ function connect_db($servername,$username,$password ,$database)
         die("Connection failed: " . mysqli_connect_error());
     }
     
-    echo "Connected successfully";
     
     return $conn;
 
 }
 function table_setup($conn)
 {
+    if ($result = mysqli_query($conn,"SHOW TABLES LIKE '".details."'")) {
+        if($result->num_rows == 1) {
+            $check  = 1;
+        }
+    }
+    else {
+       $check = 0;
+    }
+    
+    if($check == 1)
+    {
     $sql = "DROP TABLE details";
-    echo gettype($sql);
+    echo mysqli_error($conn);
     
     $retval = mysqli_query($conn,$sql);
     if(! $retval )
     {
-      die('Could not delete table: ' . mysql_error());
+      die('Could not delete table: ' . mysqli_error($conn));
     }
-    echo "Table deleted successfully\n";
+   
+    }
     
     $sql = "CREATE TABLE details (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(80),place VARCHAR(80),facilities VARCHAR(200),reviews INT)";
 
@@ -105,9 +116,9 @@ function table_setup($conn)
     
     if(! $retval )
     {
-      die('Could not create table: ' . mysql_error());
+      die('Could not create table: ' . mysqli_error($conn));
     }
-    echo "Table created successfully\n";
+    
     
 }
 
@@ -118,7 +129,7 @@ function insert_data($conn,$row,$f)
     $facs = mysql_real_escape_string( $f);
     $reviews = $row["reviews"];
     $sql = "INSERT INTO details (name,place,facilities,reviews) VALUES('$name','$place','$facs','$reviews')";
-    $retval = mysqli_query($sql,$conn);
+    $retval = mysqli_query($conn,$sql);
 }
 
 function retrieve($conn)

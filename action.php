@@ -8,17 +8,13 @@
     
     $pages=[];
     $j =0;
-  /*  foreach ($next[1] as $a)
+   foreach ($next[1] as $a)
     {
-            $a = strchr($a,"http");
-        echo $a;
-    ?>
-    <br>
-    <?php
+        $a = strchr($a,"http");
         $pages[$j] = $a;
         $j = $j+1;
     }
-*/
+
 
     $regex = "@(?s)<h2.*?Add to Compare@";
     preg_match_all($regex,$data,$matches,PREG_PATTERN_ORDER);
@@ -73,7 +69,6 @@ foreach ($pages as $url)
 
 
 
-//echo gettype($r_rev[1]);
 // print_r($next[1]);
 /*foreach($college as $a)
 {
@@ -85,6 +80,31 @@ foreach ($pages as $url)
     <?php
 }
 */
+?>
+<html>
+    <head>
+        <style>
+        body{
+            background: url("https://media.giphy.com/media/26tPgy93ssTeTTSqA/giphy.gif");
+            background-size:100% ;
+            background-repeat:no-repeat;
+        }
+        h1
+        {
+            font-family:Verdana;
+            color:#4286f4;
+            font-size:80px;
+            text-align:center;
+        }
+        </style>
+    </head>
+    
+    <body>
+        <h1>Loading...</h1>
+       </body>
+    
+</html>
+<?php
 update_db($college);
 
 
